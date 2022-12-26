@@ -14,11 +14,18 @@ pipeline {
     }
 
     stages {
-        stage('build & Sonar analysis') {
-            steps {
-                docker "image 'maven:3.8.6-openjdk-11-slim"
+        stage("build & SonarQube analysis") {
+            agent {
+        docker { image 'maven:3.8.6-openjdk-11-slim' }
             }
 
+
+           steps {
+            withSonarQubeEnv('SonarServer') {
+                    sh 'mvn sonar:sonar -Dsonar.projectKey=jawidsaboori_hellowolrd19 -Dsonar.java.binaries=.'
+            }
+           }
+        } 
             stage('maven package') {
                 steps {
                     sh 'mvn clean'
@@ -45,5 +52,3 @@ pipeline {
             }
         }
     }
-}
-
