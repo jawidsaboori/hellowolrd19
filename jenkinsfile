@@ -17,18 +17,11 @@ triggers {
             agent {
         docker { image 'maven:3.8.6-openjdk-11-slim' }
                 }
-            
-#            Steps {
-#               withSonarQubeEnv('SonarServer') {
-#                  sh 'mvn sonar:sonar -Dsonar.'
-#        }           
-#            }
-        
-#        stage('Checkout'){
-#            steps{
-#                git branch: 'main', url: 'https://github.com/jawidsaboori/hellowolrd19.git'
-#            }
-#        }
+       stage('Checkout'){
+           steps{
+               git branch: 'main', url: 'https://github.com/jawidsaboori/hellowolrd19.git'
+           }
+        }
         stage('maven package') {
             steps {
                 sh 'mvn clean'
@@ -36,11 +29,6 @@ triggers {
                 sh 'mvn package -Dskiptests'
             }
         }
-#        stage('Test') {
-#            steps {
-#                sh 'mvn test'
-#            }
-#        }
         stage('Build Image') {
             steps {
                 script{
